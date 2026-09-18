@@ -327,12 +327,15 @@
 
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
 
-    matchBlocks."github.com" = {
-      hostname = "github.com";
-      user = "git";
-      identityFile = "~/.ssh/github_ed25519";
-      identitiesOnly = true;
+    settings = {
+      "github.com" = {
+        HostName = "github.com";
+        User = "git";
+        IdentityFile = "~/.ssh/github_ed25519";
+        IdentitiesOnly = true;
+      };
     };
   };
 
