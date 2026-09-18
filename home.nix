@@ -102,6 +102,7 @@
     source = ./waybar;
     recursive = true;
   };
+
   # programs.waybar.enable = true;
   # xdg.configFile."waybar/config.jsonc".source = ./waybar/config.jsonc;
   # xdg.configFile."waybar/style.css".source = lib.mkForce ./waybar/style.css;
@@ -325,21 +326,35 @@
     enableZshIntegration = true;
   };
 
+  services.ssh-agent.enable = true;
+
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
 
     settings = {
       "github.com" = {
-        HostName = "github.com";
-        User = "git";
+        AddKeysToAgent = "yes";
         IdentityFile = "~/.ssh/github_ed25519";
-        IdentitiesOnly = true;
       };
     };
   };
 
-  services.ssh-agent.enable = true;
+  # programs.ssh = {
+  #   enable = true;
+  #   enableDefaultConfig = false;
+  #
+  #   settings = {
+  #     "github.com" = {
+  #       HostName = "github.com";
+  #       User = "git";
+  #       IdentityFile = "~/.ssh/github_ed25519";
+  #       IdentitiesOnly = true;
+  #     };
+  #   };
+  # };
+  #
+  # services.ssh-agent.enable = true;
 
   ##########
   # Editor / terminal tools
