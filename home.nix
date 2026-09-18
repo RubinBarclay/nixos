@@ -15,7 +15,7 @@
 
   services.swaync.enable = true;
 
-  home.stateVersion = "25.05";
+  home.stateVersion = "26.05";
 
   ##########
   # Mango
@@ -203,9 +203,9 @@
 
     shellAliases = {
       # nix rebuilds
-      rebuild = "sudo nixos-rebuild switch --flake \"/etc/nixos#thinkToasterT430\"";
-      rebuild-boot = "sudo nixos-rebuild boot --flake \"/etc/nixos#thinkToasterT430\""; # applies on next reboot
-      rebuild-test = "sudo nixos-rebuild test --flake \"/etc/nixos#thinkToasterT430\""; # rebuild won't persist after reboot
+      rebuild = "sudo nixos-rebuild switch --flake \"/home/rustikk/nixos#thinkToasterT430\"";
+      rebuild-boot = "sudo nixos-rebuild boot --flake \"/home/rustikk/nixos#thinkToasterT430\""; # applies on next reboot
+      rebuild-test = "sudo nixos-rebuild test --flake \"/home/rustikk/nixos#thinkToasterT430\""; # rebuild won't persist after reboot
 
       # rollback and cleanup
       rollback = "sudo nixos-rebuild switch --rollback"; # boots into previous build
@@ -213,9 +213,9 @@
       gc-all = "sudo nix-collect-garbage -d"; # deletes old generations + unreferenced store paths
 
       # nix configs
-      nixcfg = "sudo -e /etc/nixos/configuration.nix";
-      homecfg = "sudo -e /etc/nixos/home.nix";
-      flakecfg = "sudo -e /etc/nixos/flake.nix";
+      nixcfg = "nvim ~/nixos/configuration.nix";
+      homecfg = "nvim ~/nixos/home.nix";
+      flakecfg = "nvim ~/nixos/flake.nix";
 
       # search nix package's
       nsearch = "nix search nixpkgs 2>/dev/null"; 
@@ -324,6 +324,19 @@
     enable = true;
     enableZshIntegration = true;
   };
+
+  programs.ssh = {
+    enable = true;
+
+    matchBlocks."github.com" = {
+      hostname = "github.com";
+      user = "git";
+      identityFile = "~/.ssh/github_ed25519";
+      identitiesOnly = true;
+    };
+  };
+
+  services.ssh-agent.enable = true;
 
   ##########
   # Editor / terminal tools
