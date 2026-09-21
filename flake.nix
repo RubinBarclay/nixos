@@ -16,11 +16,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    reve.url = "github:RubinBarclay/nixvim-config";
+    nixvim.url = "github:nix-community/nixvim";
 
-    # nixvim = {
-    #   url = "github:nix-community/nixvim";
-    # };
+    nixvim-config.url = "github:RubinBarclay/nixvim-config";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, mango, catppuccin, nixvim, ... }@inputs: {
