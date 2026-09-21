@@ -9,7 +9,6 @@
     ./ssh.nix
     ./git.nix
     ./programs.nix
-    ./desktop.nix
     ./packages.nix
   ];
 
