@@ -15,9 +15,15 @@
       url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    reve.url = "github:RubinBarclay/nixvim-config";
+
+    # nixvim = {
+    #   url = "github:nix-community/nixvim";
+    # };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, mango, catppuccin, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, mango, catppuccin, nixvim, ... }@inputs: {
     nixosConfigurations.thinkToasterT430 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
