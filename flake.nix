@@ -35,6 +35,11 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = { inherit inputs; };
+	  home-manager.sharedModules = [
+            catppuccin.homeModules.catppuccin
+	    nixvim.homeModules.nixvim
+            mango.hmModules.mango
+          ];
           home-manager.users.rustikk = import ./home;
         }
       ];
