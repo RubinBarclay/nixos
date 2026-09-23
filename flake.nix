@@ -16,33 +16,46 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
+
     nixvim.url = "github:nix-community/nixvim";
 
     nixvim-config.url = "github:RubinBarclay/nixvim-config";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, mango, catppuccin, nixvim, ... }@inputs: {
-    nixosConfigurations.thinkToasterT430 = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        ./configuration.nix
-        mango.nixosModules.mango
-        { programs.mango.enable = true; }
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      mango,
+      catppuccin,
+      nixvim,
+      ...
+    }@inputs:
+    {
+      nixosConfigurations.thinkToasterT430 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration.nix
+          mango.nixosModules.mango
+          { programs.mango.enable = true; }
 
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
-	  home-manager.sharedModules = [
-            catppuccin.homeModules.catppuccin
-	    nixvim.homeModules.nixvim
-            mango.hmModules.mango
-          ];
-          home-manager.users.rustikk = import ./home;
-        }
-      ];
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.sharedModules = [
+              catppuccin.homeModules.catppuccin
+              nixvim.homeModules.nixvim
+              mango.hmModules.mango
+            ];
+            home-manager.users.rustikk = import ./home;
+          }
+        ];
+      };
     };
-  };
 }

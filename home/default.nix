@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./noctalia.nix
     ./nixvim.nix
     ./mango.nix
     ./waybar.nix

@@ -2,13 +2,18 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -27,8 +32,13 @@
   networking.hostName = "thinkToasterT430"; # Define your hostname.
 
   # Configure network connections interactively with nmcli or nmtui.
-  networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
+
+  # Noctalia requirements
+  networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
@@ -49,7 +59,7 @@
   # services.xserver.enable = true;
 
   # TTY layout
-  console.keyMap = "sv-latin1"; 
+  console.keyMap = "sv-latin1";
 
   # Map esc -> caps and caps -> super + caps on kernel input level
   services.keyd = {
@@ -100,20 +110,26 @@
   security.rtkit.enable = true;
 
   # Register PAM service for lock screen
-  security.pam.services.swaylock = {};
-  
+  security.pam.services.swaylock = { }; # replaced with noctalia
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rustikk = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ]; # Enable ‘sudo’ for the user.
     initialPassword = "password";
   };
 
   # Enable flakes + nix-command
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Enable zsh and set as default shell
   programs.zsh.enable = true;
@@ -128,7 +144,7 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
-    waybar
+    waybar # replaced by noctalia
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -175,4 +191,3 @@
   system.stateVersion = "26.05"; # Did you read the comment?
 
 }
-
