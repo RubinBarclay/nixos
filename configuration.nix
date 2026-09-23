@@ -32,7 +32,7 @@
   networking.hostName = "thinkToasterT430"; # Define your hostname.
 
   # Configure network connections interactively with nmcli or nmtui.
-  programs.nm-applet.enable = true;
+  # programs.nm-applet.enable = true;
 
   # Noctalia requirements
   networking.networkmanager.enable = true;
@@ -110,7 +110,7 @@
   security.rtkit.enable = true;
 
   # Register PAM service for lock screen
-  security.pam.services.swaylock = { }; # replaced with noctalia
+  # security.pam.services.swaylock = { }; # replaced with noctalia
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -144,7 +144,7 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
-    waybar # replaced by noctalia
+    # waybar # replaced by noctalia
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

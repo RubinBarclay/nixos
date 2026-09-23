@@ -17,24 +17,24 @@
 
     # wayland
     wl-clipboard
-    fuzzel
+    # fuzzel
 
     # screenshots
-    grim
-    slurp
-    swappy
+    # grim
+    # slurp
+    # swappy
 
     # wallpaper
-    swaybg
+    # swaybg
 
     # lock screen
-    swayidle
+    # swayidle
 
     # browser
     firefox
 
     # bluetooth
-    blueman
+    # blueman
 
     # networking
     wireshark

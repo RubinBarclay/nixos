@@ -8,7 +8,6 @@
     enable = true;
 
     systemd.enable = true;
-    launch_apps_as_systemd_services = true;
 
     settings = {
       bar = {
@@ -20,8 +19,11 @@
         shadow = false;
       };
 
-      shell.panel = {
-        shadow = false;
+      shell = {
+        launch_apps_as_systemd_services = true;
+        panel = {
+          shadow = false;
+        };
       };
 
       # This may also be a string or path to a .toml file.

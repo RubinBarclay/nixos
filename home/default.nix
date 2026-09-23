@@ -5,7 +5,7 @@
     ./noctalia.nix
     ./nixvim.nix
     ./mango.nix
-    ./waybar.nix
+    # ./waybar.nix
     ./shell.nix
     ./ssh.nix
     ./git.nix
@@ -43,6 +43,6 @@
     accent = "mauve";
   };
 
-  services.swaync.enable = true;
-  programs.swaylock.enable = true;
+  # services.swaync.enable = true;
+  # programs.swaylock.enable = true;
 }

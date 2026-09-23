@@ -110,8 +110,8 @@
 
     autostart_sh = ''
       noctalia &
-      nm-applet --indicator &
     '';
   };
+  # nm-applet --indicator &
   # swaybg -i ~/Pictures/aesthetic.jpg -m fill &
 }
