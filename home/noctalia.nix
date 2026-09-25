@@ -77,6 +77,11 @@
             "qt"
             "starship"
           ];
+
+          community_ids = [
+            "zellij"
+            "yazi"
+          ];
         };
       };
 
