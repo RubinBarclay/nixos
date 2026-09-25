@@ -5,7 +5,11 @@
     enable = true;
     openDefaultPorts = true;
     guiAddress = "0.0.0.0:8384";
-    extraFlags = [ "--no-default-folder" ];
+    # extraFlags = [ "--no-default-folder" ];
+    user = "rustikk";
+    group = "users";
+    dataDir = "/home/rustikk"; # default location for new folders
+    # configDir = "/home/rustikk/.config/syncthing";
 
     settings = {
       devices = {
@@ -18,7 +22,8 @@
       };
 
       folders = {
-        "keepass" = {
+        "KeePass" = {
+          id = "keepass";
           path = "/home/rustikk/keepass";
           ignorePerms = false;
           devices = [

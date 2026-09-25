@@ -60,9 +60,6 @@
       _comp_options+=(globdots)
       stty stop undef
 
-      # Try a package in a throwaway shell
-      nshell() nix shell "nixpkgs#$1";
-
       # Enable completion menus
       autoload -Uz compinit
       compinit
