@@ -36,12 +36,12 @@
 
   gtk.enable = true;
 
-  catppuccin = {
-    enable = true;
-    autoEnable = true;
-    flavor = "mocha";
-    accent = "mauve";
-  };
+  # catppuccin = {
+  #   enable = true;
+  #   autoEnable = true;
+  #   flavor = "mocha";
+  #   accent = "mauve";
+  # };
 
   # services.swaync.enable = true;
   # programs.swaylock.enable = true;

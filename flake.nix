@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    catppuccin.url = "github:catppuccin/nix";
+    # catppuccin.url = "github:catppuccin/nix";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -30,7 +30,7 @@
       nixpkgs-unstable,
       home-manager,
       mango,
-      catppuccin,
+      # catppuccin,
       nixvim,
       ...
     }@inputs:
@@ -49,7 +49,7 @@
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.sharedModules = [
-              catppuccin.homeModules.catppuccin
+              # catppuccin.homeModules.catppuccin
               nixvim.homeModules.nixvim
               mango.hmModules.mango
             ];
