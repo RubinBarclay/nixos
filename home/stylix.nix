@@ -7,6 +7,14 @@
     polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
 
+    # home-manager.useGlobalPkgs expects nixpkgs.overlays to only be set at the
+    # system level. Stylix's per-user overlay (injected here by default) is only
+    # populated by targets that ship a modules/<target>/overlay.nix — none of the
+    # targets enabled below have one, so there's nothing lost by turning it off.
+    # If a future target you enable needs it, add that overlay at the system
+    # level (configuration.nix) instead of flipping this back on.
+    overlays.enable = false;
+
     targets = {
       nixvim.enable = true;
       zellij.enable = true;

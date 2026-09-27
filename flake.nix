@@ -23,7 +23,10 @@
     nixvim-config.url = "github:RubinBarclay/nixvim-config";
 
     stylix = {
-      url = "github:danth/stylix";
+      # Pinned to the release branch matching our nixpkgs/home-manager train
+      # (release-26.05 tracks nixos-26.05 upstream) instead of Stylix's
+      # unstable default branch, so its release checks don't flag a mismatch.
+      url = "github:danth/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
