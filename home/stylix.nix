@@ -16,14 +16,12 @@
     overlays.enable = false;
 
     targets = {
-      nixvim = {
-        enable = true;
-        # mini.base16 (the default) only maps a handful of highlight groups,
-        # which is why most syntax fell back to plain text. base16-nvim has
-        # much fuller Treesitter/LSP semantic-token coverage for the same
-        # palette.
-        plugin = "base16-nvim";
-      };
+      # Neovim uses nixvim-config's own dedicated rose-pine.nvim colorscheme
+      # instead (see home/nixvim.nix) — base16's reduced 16-slot model caps
+      # syntax highlighting quality no matter which renderer plugin draws it,
+      # and the editor is worth the tradeoff of not sharing one literal palette
+      # with everything else.
+      nixvim.enable = false;
       zellij.enable = true;
       yazi.enable = true;
       foot.enable = true;

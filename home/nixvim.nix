@@ -1,4 +1,4 @@
-{ inputs, lib, ... }:
+{ inputs, ... }:
 
 {
   programs.nixvim = {
@@ -6,8 +6,8 @@
 
     imports = [ inputs.nixvim-config.nixvimModule ];
 
-    # Stylix (home/stylix.nix) drives the colorscheme now — the fork's own
-    # rose-pine default would otherwise fight it for the last `:colorscheme` call.
-    colorschemes.rose-pine.enable = lib.mkForce false;
+    # nixvim-config's own rose-pine.nvim colorscheme (mkDefault true) is left
+    # as-is — stylix.targets.nixvim is disabled (home/stylix.nix) so there's
+    # no longer anything fighting it for the `:colorscheme` call.
   };
 }
