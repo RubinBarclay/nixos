@@ -16,7 +16,14 @@
     overlays.enable = false;
 
     targets = {
-      nixvim.enable = true;
+      nixvim = {
+        enable = true;
+        # mini.base16 (the default) only maps a handful of highlight groups,
+        # which is why most syntax fell back to plain text. base16-nvim has
+        # much fuller Treesitter/LSP semantic-token coverage for the same
+        # palette.
+        plugin = "base16-nvim";
+      };
       zellij.enable = true;
       yazi.enable = true;
       foot.enable = true;
