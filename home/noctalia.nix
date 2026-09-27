@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   imports = [
     inputs.noctalia.homeModules.default
@@ -46,7 +46,10 @@
       lockscreen_widgets.enabled = false;
 
       shell = {
-        font_family = "JetBrainsMono Nerd Font";
+        # noctalia's own module recently started shipping a plain (non-mkDefault)
+        # "DejaVu Sans" default, which ties in priority with a plain value here —
+        # force ours so an upstream default change can't silently win again.
+        font_family = lib.mkForce "JetBrainsMono Nerd Font";
         lang = "en";
         launch_apps_as_systemd_services = true;
         telemetry_enabled = true;
