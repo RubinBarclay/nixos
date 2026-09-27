@@ -401,11 +401,11 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1790357865,
-        "narHash": "sha256-Mk4JOgVT0kL0z+VwYHcP7GUVDCZGw0emPtL9Gie+hfI=",
+        "lastModified": 1790472032,
+        "narHash": "sha256-qWo3d7pMy5hZV4+cIRPwe8ORPc80TnBp7hGoslHjPdo=",
         "owner": "RubinBarclay",
         "repo": "nixvim-config",
-        "rev": "c30907d2624cebd1192e286d535ed5b989530751",
+        "rev": "603f4d461729ce1877333ea63031a12e6d2d288a",
         "type": "github"
       },
       "original": {
