@@ -22,7 +22,10 @@ in
 
       rootcolor=0x${colors.base00}ff
       bordercolor=0x${colors.base03}ff
-      focuscolor=0x${colors.base0E}ff
+      # base0A is Rosé Pine's "Rose" (#ebbcba) in the tinted-theming base16 port —
+      # base0E lands on gold/orange in this scheme, not the purple/pink you'd
+      # expect from the usual base16->ANSI convention.
+      focuscolor=0x${colors.base0A}ff
 
       blur=1
       blur_layer=0
