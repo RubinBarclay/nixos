@@ -56,6 +56,11 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
+            # foot/btop just became home-manager-managed, and stylix/noctalia have
+            # both written directly into some of these config paths in the past
+            # (gtk.css, starship.toml, yazi/theme.toml). Auto-rename any real file
+            # activation collides with instead of hard-failing the switch.
+            home-manager.backupFileExtension = "backup";
             home-manager.sharedModules = [
               # catppuccin.homeModules.catppuccin
               nixvim.homeModules.nixvim
