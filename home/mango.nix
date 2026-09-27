@@ -47,24 +47,31 @@ in
       shadows_position_y=2
       shadowscolor=0x000000ff
 
+      # Everything WM-level lives on SUPER (+SHIFT for the secondary/harder
+      # action) so Alt and Ctrl stay completely free for apps, the terminal,
+      # and zellij. The old ALT-based focusdir binds clashed directly with
+      # Firefox's Alt+Left/Right back/forward navigation — that's the actual
+      # bug this fixes, not just a style preference.
       bind=SUPER,Return,spawn,foot
-      bind=SUPER,m,quit
       bind=SUPER,q,killclient,
-      bind=SUPER,r,reload_config
+      bind=SUPER+SHIFT,e,quit
+      bind=SUPER+SHIFT,r,reload_config
       bind=SUPER,Tab,focusstack,next
 
-      bind=ALT,Left,focusdir,left
-      bind=ALT,Right,focusdir,right
-      bind=ALT,Up,focusdir,up
-      bind=ALT,Down,focusdir,down
+      bind=SUPER,Left,focusdir,left
+      bind=SUPER,Right,focusdir,right
+      bind=SUPER,Up,focusdir,up
+      bind=SUPER,Down,focusdir,down
 
-      bind=ALT,h,focusdir,left
-      bind=ALT,l,focusdir,right
-      bind=ALT,k,focusdir,up
-      bind=ALT,j,focusdir,down
+      bind=SUPER,h,focusdir,left
+      bind=SUPER,l,focusdir,right
+      bind=SUPER,k,focusdir,up
+      bind=SUPER,j,focusdir,down
 
-      bind=ALT,backslash,togglefloating,
-      bind=ALT,f,togglefullscreen,
+      # SUPER+SHIFT+Space and SUPER+F match i3/sway's own defaults for these
+      # two actions, which is exactly the kind of "common" binding you asked for.
+      bind=SUPER+SHIFT,space,togglefloating,
+      bind=SUPER,f,togglefullscreen,
 
       bind=SUPER,space,spawn,noctalia msg panel-toggle launcher
       bind=SUPER,s,spawn,noctalia msg panel-toggle control-center
