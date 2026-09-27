@@ -8,7 +8,11 @@
     enable = true;
     systemd.enable = true;
 
-    settings = {
+    # noctalia's own module has started shipping plain (non-mkDefault) defaults
+    # for some of these same settings (shell.font_family, theme.source, ...),
+    # which tie in priority with plain values here and fail to merge. Force the
+    # whole block so a future upstream default change can't break this again.
+    settings = lib.mkForce {
       bar = {
         contact_shadow = false;
         shadow = false;
@@ -46,10 +50,7 @@
       lockscreen_widgets.enabled = false;
 
       shell = {
-        # noctalia's own module recently started shipping a plain (non-mkDefault)
-        # "DejaVu Sans" default, which ties in priority with a plain value here —
-        # force ours so an upstream default change can't silently win again.
-        font_family = lib.mkForce "JetBrainsMono Nerd Font";
+        font_family = "JetBrainsMono Nerd Font";
         lang = "en";
         launch_apps_as_systemd_services = true;
         telemetry_enabled = true;
