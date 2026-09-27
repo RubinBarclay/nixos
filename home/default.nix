@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./stylix.nix
     ./noctalia.nix
     ./nixvim.nix
     ./mango.nix

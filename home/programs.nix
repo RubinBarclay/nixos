@@ -1,4 +1,7 @@
 {
+  programs.foot.enable = true;
+  programs.btop.enable = true;
+
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;

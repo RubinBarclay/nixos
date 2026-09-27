@@ -65,23 +65,12 @@
         mode = "dark";
         source = "builtin";
 
+        # Stylix (home/stylix.nix) themes every app on this list now — noctalia
+        # only owns its own shell (bar/dock/launcher/lockscreen/wallpaper).
         templates = {
-          enable_builtin_templates = true;
-
-          builtin_ids = [
-            "btop"
-            "foot"
-            "gtk3"
-            "gtk4"
-            "mango"
-            "qt"
-            "starship"
-          ];
-
-          community_ids = [
-            "zellij"
-            "yazi"
-          ];
+          enable_builtin_templates = false;
+          builtin_ids = [ ];
+          community_ids = [ ];
         };
       };
 

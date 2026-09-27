@@ -2,7 +2,8 @@
 
 {
   home.packages = with pkgs; [
-    foot
+    # foot and btop are managed declaratively via programs.foot/programs.btop
+    # (home/programs.nix) instead, so Stylix can theme them.
     eza
     ripgrep
     fd
@@ -10,7 +11,6 @@
     fzf
     wget
     unzip
-    btop
 
     # audio
     pamixer

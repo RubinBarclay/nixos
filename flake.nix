@@ -21,6 +21,11 @@
     nixvim.url = "github:nix-community/nixvim";
 
     nixvim-config.url = "github:RubinBarclay/nixvim-config";
+
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
