@@ -1,5 +1,5 @@
 {
-  description = "thinkToasterT430 NixOS + mango";
+  description = "Rubin's NixOS configs — thinkToasterT430, plus templates for future hosts";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
@@ -29,46 +29,102 @@
       url = "github:danth/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # A NixOS system that runs *as* a WSL2 distro — see hosts/wsl-template.
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Declarative disk partitioning. Not wired into any host yet, but this
+    # (paired with nixos-anywhere, run separately — see README) is how a
+    # future server/desktop should be installed from scratch instead of by
+    # hand with parted/mkfs. See hosts/server-template.
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      nixpkgs-unstable,
       home-manager,
-      mango,
-      # catppuccin,
-      nixvim,
       ...
     }@inputs:
-    {
-      nixosConfigurations.thinkToasterT430 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./configuration.nix
-          mango.nixosModules.mango
-          { programs.mango.enable = true; }
+    let
+      # One place that wires a host's system modules to its home-manager
+      # profile, so hosts/*/default.nix only has to say what makes THAT
+      # machine different, not repeat the home-manager plumbing.
+      mkHost =
+        {
+          hostPath,
+          homeProfile,
+          # Extra home-manager modules the chosen homeProfile actually uses.
+          # nixvim is needed everywhere (home/profiles/common.nix always
+          # imports it); mango's hm module is desktop-only, so hosts that
+          # don't run mango shouldn't pull it in.
+          homeSharedModules ? [ inputs.nixvim.homeModules.nixvim ],
+          # Extra NixOS modules a specific host needs (e.g. mango's own
+          # nixosModule + enabling it) that don't belong in a shared profile.
+          extraModules ? [ ],
+        }:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            hostPath
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            # foot/btop just became home-manager-managed, and stylix/noctalia have
-            # both written directly into some of these config paths in the past
-            # (gtk.css, starship.toml, yazi/theme.toml). Auto-rename any real file
-            # activation collides with instead of hard-failing the switch.
-            home-manager.backupFileExtension = "backup";
-            home-manager.sharedModules = [
-              # catppuccin.homeModules.catppuccin
-              nixvim.homeModules.nixvim
-              mango.hmModules.mango
-            ];
-            home-manager.users.rustikk = import ./home;
-          }
-        ];
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+              # stylix/noctalia have both written directly into some of
+              # these config paths in the past (gtk.css, starship.toml,
+              # yazi/theme.toml). Auto-rename any real file activation
+              # collides with instead of hard-failing the switch.
+              home-manager.backupFileExtension = "backup";
+              home-manager.sharedModules = homeSharedModules;
+              home-manager.users.rustikk = import homeProfile;
+            }
+          ] ++ extraModules;
+        };
+    in
+    {
+      nixosConfigurations = {
+        thinkToasterT430 = mkHost {
+          hostPath = ./hosts/thinkToasterT430;
+          homeProfile = ./home; # full profile: CLI baseline + desktop
+          homeSharedModules = [
+            inputs.nixvim.homeModules.nixvim
+            inputs.mango.hmModules.mango
+          ];
+          extraModules = [
+            inputs.mango.nixosModules.mango
+            { programs.mango.enable = true; }
+          ];
+        };
+
+        # Untested scaffold — see hosts/wsl-template/default.nix and the
+        # README before treating this as a real machine.
+        wsl-template = mkHost {
+          hostPath = ./hosts/wsl-template;
+          homeProfile = ./home/profiles/common.nix; # CLI-only, no mango
+        };
+
+        # Untested scaffold for a future headless box — see
+        # hosts/server-template/default.nix and the README.
+        server-template = mkHost {
+          hostPath = ./hosts/server-template;
+          homeProfile = ./home/profiles/common.nix; # CLI-only, no mango
+        };
       };
     };
 }

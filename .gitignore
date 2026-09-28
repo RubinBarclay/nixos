@@ -11,6 +11,10 @@ result-*
 .direnv/
 .envrc.local
 
-# Secrets
+# Secrets — only agenix's encrypted .age files and its rules file
+# (secrets/secrets.nix) are meant to be committed. Never commit plaintext.
 *.secret
-secrets/
+secrets/*
+!secrets/*.nix
+!secrets/*.age
+!secrets/README.md

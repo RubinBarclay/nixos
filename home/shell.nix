@@ -14,16 +14,22 @@
     };
 
     shellAliases = {
-      rebuild = "sudo nixos-rebuild switch --flake \"/home/rustikk/nixos#thinkToasterT430\"";
-      rebuild-boot = "sudo nixos-rebuild boot --flake \"/home/rustikk/nixos#thinkToasterT430\"";
-      rebuild-test = "sudo nixos-rebuild test --flake \"/home/rustikk/nixos#thinkToasterT430\"";
+      # No "#hostname" suffix — nixos-rebuild matches the flake's
+      # nixosConfigurations against this machine's real hostname on its own,
+      # as long as that attribute name (flake.nix) equals networking.hostName
+      # (the host's default.nix). Keeps these aliases correct on every host.
+      rebuild = "sudo nixos-rebuild switch --flake \"/home/rustikk/nixos\"";
+      rebuild-boot = "sudo nixos-rebuild boot --flake \"/home/rustikk/nixos\"";
+      rebuild-test = "sudo nixos-rebuild test --flake \"/home/rustikk/nixos\"";
 
       rollback = "sudo nixos-rebuild switch --rollback";
       gc = "sudo nix-collect-garbage --delete-older-than 14d";
       gc-all = "sudo nix-collect-garbage -d";
 
-      nixcfg = "nvim ~/nixos/configuration.nix";
-      homecfg = "nvim ~/nixos/home/default.nix";
+      # Directory args, not files — yazi.nvim's open_for_directories opens
+      # yazi on these instead of an empty buffer.
+      nixcfg = "nvim ~/nixos";
+      homecfg = "nvim ~/nixos/home";
       flakecfg = "nvim ~/nixos/flake.nix";
 
       nsearch = "nix search nixpkgs 2>/dev/null";

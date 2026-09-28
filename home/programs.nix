@@ -1,5 +1,5 @@
 {
-  programs.foot.enable = true;
+  # foot is desktop-only (Wayland terminal) — see home/programs-desktop.nix
   programs.btop.enable = true;
 
   programs.yazi = {

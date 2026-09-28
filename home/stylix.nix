@@ -12,7 +12,7 @@
     # populated by targets that ship a modules/<target>/overlay.nix — none of the
     # targets enabled below have one, so there's nothing lost by turning it off.
     # If a future target you enable needs it, add that overlay at the system
-    # level (configuration.nix) instead of flipping this back on.
+    # level (a NixOS host/profile module) instead of flipping this back on.
     overlays.enable = false;
 
     targets = {
@@ -24,11 +24,9 @@
       nixvim.enable = false;
       zellij.enable = true;
       yazi.enable = true;
-      foot.enable = true;
       btop.enable = true;
       starship.enable = true;
-      gtk.enable = true;
-      qt.enable = true;
+      # foot/gtk/qt are desktop-only — see home/stylix-desktop.nix
     };
   };
 }
