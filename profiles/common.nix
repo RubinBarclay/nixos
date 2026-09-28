@@ -14,6 +14,10 @@
     inputs.agenix.packages.${pkgs.system}.default
   ];
 
+  # Scoped rather than a blanket `allowUnfree = true` — currently just for
+  # claude-code (home/programs.nix), which ships as a prebuilt binary.
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "claude-code" ];
+
   services.openssh.enable = true;
 
   programs.zsh.enable = true;
