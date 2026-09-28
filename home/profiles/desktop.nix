@@ -4,7 +4,7 @@
     ../stylix-desktop.nix
     ../noctalia.nix
     ../mango.nix
-    # ../waybar.nix  # not wired up — see home/waybar.nix
+    ../keepassxc.nix
     ../packages-desktop.nix
     ../programs-desktop.nix
   ];

@@ -17,5 +17,5 @@ let
   allHosts = [ thinkToasterT430 ];
 in
 {
-  # "example.age".publicKeys = allUsers ++ allHosts;
+  # "github-ssh-key.age".publicKeys = allUsers ++ allHosts;
 }
