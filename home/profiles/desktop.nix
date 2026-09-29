@@ -12,5 +12,6 @@
   home.sessionVariables = {
     TERMINAL = "foot";
     BROWSER = "firefox";
+    COLORTERM = "truecolor";
   };
 }
