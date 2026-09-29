@@ -19,6 +19,12 @@
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "claude-code" ];
 
   services.openssh.enable = true;
+  # Let SSH clients forward COLORTERM so truecolor-detecting apps (Claude
+  # Code's custom theme creator, chalk/supports-color-based zsh coloring)
+  # see the same 24-bit color support over SSH as they do locally. TERM
+  # itself doesn't need this — it's negotiated via the pty allocation
+  # request, not a plain env var, so it already comes through unaided.
+  services.openssh.settings.AcceptEnv = [ "COLORTERM" ];
 
   programs.zsh.enable = true;
 
