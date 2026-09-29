@@ -149,6 +149,10 @@ in
 
     autostart_sh = ''
       noctalia &
+      # KeePassXC has to actually be running for its SSH Agent feature
+      # (home/keepassxc.nix) to bind $SSH_AUTH_SOCK — it was never launched
+      # anywhere before, so the agent socket never existed.
+      keepassxc &
     '';
   };
   # nm-applet --indicator &

@@ -1,23 +1,22 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
-  # KeePassXC replaces the plain ssh-agent as our SSH agent: unlock the vault
-  # once and both password autotype/browser-fill AND SSH auth are live, no
-  # separate `ssh-add` + typed passphrase step.
+  # KeePassXC adds convenience on top of a real ssh-agent: unlock the vault
+  # once and, for any entry with a key attached under its SSH Agent tab,
+  # that key gets loaded into the agent automatically — no separate
+  # `ssh-add` + typed passphrase step.
   #
-  # How this actually works (verified against KeePassXC's own source, since
-  # its docs site isn't reachable from this sandbox): on Linux, KeePassXC's
-  # SSH Agent feature does NOT create its own socket path. It checks its
-  # own "AuthSockOverride" setting first (left unset here) and otherwise
-  # binds to whatever $SSH_AUTH_SOCK already points at when it starts. So
-  # this only works if (a) nothing else is already listening on that path —
-  # hence turning plain ssh-agent off below — and (b) $SSH_AUTH_SOCK is set
-  # in the session *before* KeePassXC launches. Confirm after rebuilding by
-  # checking `echo $SSH_AUTH_SOCK` in a terminal matches this path, and that
-  # `ssh-add -l` lists your key once the vault is unlocked.
-  services.ssh-agent.enable = lib.mkForce false;
-
-  home.sessionVariables.SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
-
+  # An earlier version of this comment (written when KeePassXC's docs site
+  # wasn't reachable) assumed KeePassXC implements its own agent on Linux
+  # and disabled the plain agent as a result — confirmed wrong against
+  # home-manager's services.ssh-agent module and a matching upstream
+  # KeePassXC issue (keepassxreboot/keepassxc#8777, same "no agent
+  # running" symptom): on Linux/macOS KeePassXC is agent-protocol client
+  # only, it never listens on the socket itself. It requires a real
+  # ssh-agent already running at $SSH_AUTH_SOCK; home/ssh.nix's
+  # `services.ssh-agent.enable = lib.mkDefault true` provides that, so this
+  # file no longer overrides it. $SSH_AUTH_SOCK itself is also no longer
+  # set here — services.ssh-agent's own sshAuthSock.initialization already
+  # exports the correct path for every shell.
   programs.keepassxc = {
     enable = true;
     package = pkgs.keepassxc;
