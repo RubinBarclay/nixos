@@ -148,6 +148,16 @@ in
     '';
 
     autostart_sh = ''
+      # greetd execs mango directly (profiles/desktop.nix's tuigreet --cmd
+      # mango), not through a login shell, so home-manager's
+      # sshAuthSock.initialization (which only patches zsh/bash shell
+      # startup files, see home/ssh.nix) never runs for mango's process
+      # tree -- mango and everything it spawns below would otherwise have
+      # no $SSH_AUTH_SOCK at all, even though ssh-agent.service itself is
+      # running. Export it explicitly, matching services.ssh-agent's
+      # default socket suffix.
+      export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
+
       noctalia &
       # KeePassXC has to actually be running for its SSH Agent feature
       # (home/keepassxc.nix) to bind $SSH_AUTH_SOCK — it was never launched
