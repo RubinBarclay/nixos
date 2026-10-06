@@ -113,8 +113,9 @@
           ];
         };
 
-        # Untested scaffold — see hosts/wsl-template/default.nix and the
-        # README before treating this as a real machine.
+        # Real, running WSL2 host (RTX 3080 passthrough, CUDA llama-swap) —
+        # see hosts/wslToasterRTX/default.nix. hosts/wsl-template/ is the
+        # still-untested scaffold this was copied from.
         wslToasterRTX = mkHost {
           hostPath = ./hosts/wslToasterRTX;
           homeProfile = ./home/profiles/common.nix; # CLI-only, no mango

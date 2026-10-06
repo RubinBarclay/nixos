@@ -31,12 +31,19 @@ hostname. Breaking that equality breaks those aliases on that host.
 
 ## Real host vs. scaffolds
 
-- `hosts/thinkToasterT430/` is the one real, running machine.
+- `hosts/thinkToasterT430/` and `hosts/wslToasterRTX/` (NixOS-WSL on
+  Windows, RTX 3080 passed through) are real, running machines.
+  `wslToasterRTX` also runs `llama-swap` + CUDA `llama-cpp` for local
+  inference (see its `default.nix`) — CUDA GPU access there comes through
+  `/usr/lib/wsl/lib` (Windows' own driver stub), not `hardware.nvidia`,
+  which doesn't apply under WSL2.
 - `hosts/wsl-template/` and `hosts/server-template/` are **intentionally
   untested scaffolds** — written from documentation/inference, never built
   (no `nix` binary is available in a Claude Code web/cloud session; see
   below). Don't treat them as proven. `server-template` has no
   `hardware-configuration.nix` on purpose and won't build until one is added.
+  `wsl-template` is what `wslToasterRTX` was copied from — the template
+  itself stays untested; only the copy is real.
 
 ## Theming: Stylix everywhere except Neovim
 
@@ -66,9 +73,12 @@ Claude Code sandbox) — if a shift-combo bind doesn't fire, check that first.
 ## Secrets: two separate systems, don't blur them
 
 - **agenix** (`secrets/`) — for secrets NixOS itself consumes at
-  activation/boot (service API keys, the personal SSH key deployment
-  scaffold in `profiles/common.nix`, currently commented out until
-  `secrets/github-ssh-key.age` actually exists).
+  activation/boot. Live, not a scaffold: `secrets/secrets.nix` has real
+  keys, `secrets/github-ssh-key.age` exists, and `profiles/common.nix`'s
+  `age.secrets.github-ssh-key` deploys it on every host (verified on both
+  `thinkToasterT430` and `wslToasterRTX`). Adding a new host still means
+  adding its SSH host key to `secrets.nix`'s `allHosts` and running
+  `agenix -r` before it can decrypt existing secrets.
 - **KeePassXC** (`home/keepassxc.nix`, desktop-only) — for secrets a human
   recalls/types. Syncs its `.kdbx` via Syncthing (unrelated to agenix). Also
   serves as the SSH agent: it binds to `$SSH_AUTH_SOCK` directly rather than

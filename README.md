@@ -30,12 +30,15 @@ secrets/                agenix-encrypted secrets — see secrets/README.md
 | Host | Status | Profile mix |
 |---|---|---|
 | `thinkToasterT430` | real, running | desktop + systemd-boot-efi + syncthing |
+| `wslToasterRTX` | real, running | common only (CLI, no GUI) + host-specific llama-swap/CUDA (RTX 3080 passthrough) |
 | `wsl-template` | **scaffold, untested** | common only (CLI, no GUI) |
 | `server-template` | **scaffold, untested** | common + server |
 
-The two templates exist so adding a real WSL box or a homelab server is
+The two templates exist so adding another WSL box or a homelab server is
 "copy the directory and fill in the blanks," not "design it from zero." Each
 one's top comment says exactly what's missing before it'll actually build.
+`wslToasterRTX` is itself a filled-in copy of `wsl-template` — the template
+stays untested, the copy doesn't.
 
 ## Adding a new real host
 
