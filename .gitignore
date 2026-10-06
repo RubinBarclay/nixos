@@ -11,6 +11,10 @@ result-*
 .direnv/
 .envrc.local
 
+# Claude Code — per-machine local settings only; shared config under
+# .claude/ (e.g. settings.json, custom commands) is still meant to be committed.
+.claude/settings.local.json
+
 # Secrets — only agenix's encrypted .age files and its rules file
 # (secrets/secrets.nix) are meant to be committed. Never commit plaintext.
 *.secret
