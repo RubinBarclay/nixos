@@ -35,8 +35,6 @@
 
   security.rtkit.enable = true;
 
-  programs.dconf.enable = true;
-
   # Physical keyboard remap — only meaningful with real hardware attached.
   services.keyd = {
     enable = true;

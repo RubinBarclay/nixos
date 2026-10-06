@@ -28,6 +28,17 @@
 
   programs.zsh.enable = true;
 
+  # home-manager's dconf module unconditionally runs a reset/apply
+  # activation step on every switch (to clear keys that became unmanaged),
+  # even when dconf.settings is empty — it still needs the dconf D-Bus
+  # service to exist, or activation fails with "ca.desrt.dconf was not
+  # provided by any .service files" (home-manager's own documented fix for
+  # this exact error). profiles/desktop.nix already had this for
+  # mango/gtk's sake, but every host runs home-manager, so it belongs here,
+  # not just on desktop hosts — this is what broke home-manager activation
+  # on the WSL host.
+  programs.dconf.enable = true;
+
   users.users.rustikk = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
