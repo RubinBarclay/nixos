@@ -94,7 +94,8 @@
               home-manager.sharedModules = homeSharedModules;
               home-manager.users.rustikk = import homeProfile;
             }
-          ] ++ extraModules;
+          ]
+          ++ extraModules;
         };
     in
     {
@@ -114,8 +115,8 @@
 
         # Untested scaffold — see hosts/wsl-template/default.nix and the
         # README before treating this as a real machine.
-        wsl-template = mkHost {
-          hostPath = ./hosts/wsl-template;
+        wslToasterRTX = mkHost {
+          hostPath = ./hosts/wslToasterRTX;
           homeProfile = ./home/profiles/common.nix; # CLI-only, no mango
         };
 
