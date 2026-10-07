@@ -20,18 +20,53 @@
     pkgs.llama-swap
   ];
 
-  # Per-host model list. Currently just qwen9b (wslToasterRTX, mirroring
-  # the flags from the working qwen3.5-9b.bat: text-only, 128K ctx, Q8 KV
-  # cache, thinking disabled). ${PORT} is llama-swap's own injected
-  # placeholder, not a Nix interpolation -- escaped below as ''${PORT}.
+  # Per-host model list (wslToasterRTX). ${PORT} is llama-swap's own
+  # injected placeholder, not a Nix interpolation -- escaped below as
+  # ''${PORT}. Thinking is controlled via --reasoning on/off, not
+  # --chat-template-kwargs '{"enable_thinking":...}' -- this build's
+  # llama-server flags that kwarg as deprecated and (per its own startup
+  # log, discovered on qwen9b) was still resolving the chat template with
+  # thinking = 1 regardless of what the kwarg said.
+  #
+  # qwen4b is split into two llama-swap entries pointing at the same GGUF
+  # (-nothink / -think) because llama-swap's reasoning mode is a process
+  # launch flag, not a per-request option -- Hermes slots that need
+  # different thinking behavior from the same model have to pick between
+  # the two entries instead.
+  #
+  # qwen2b is Qwen3.5's native vision-language variant; it's the only
+  # entry that loads an --mmproj (Qwen3.5 ships a vision encoder at every
+  # size, but qwen4b/qwen08b's Hermes slots are text-only, so their mmproj
+  # is never downloaded/wired up).
   environment.etc."llama-swap/config.yaml".text =
     let
       llamaCppCuda = pkgs.llama-cpp.override { cudaSupport = true; };
+      modelDir = "/home/rustikk/models/qwen3.5-9b";
     in ''
       models:
         "qwen9b":
           cmd: |
-            ${llamaCppCuda}/bin/llama-server -m "/home/rustikk/models/qwen3.5-9b/Qwen3.5-9B-Q4_K_M.gguf" --jinja -ngl 99 -fa on -c 131072 -ctk q8_0 -ctv q8_0 -np 1 --chat-template-kwargs '{"enable_thinking":false}' --port ''${PORT}
+            ${llamaCppCuda}/bin/llama-server -m "${modelDir}/Qwen3.5-9B-Q4_K_M.gguf" --jinja -ngl 99 -fa on -c 65536 -ctk q8_0 -ctv q8_0 -np 1 --reasoning off --port ''${PORT}
+          ttl: 300
+
+        "qwen4b-nothink":
+          cmd: |
+            ${llamaCppCuda}/bin/llama-server -m "${modelDir}/Qwen3.5-4B-Q4_K_M.gguf" --jinja -ngl 99 -fa on -c 65536 -ctk q8_0 -ctv q8_0 -np 1 --reasoning off --port ''${PORT}
+          ttl: 300
+
+        "qwen4b-think":
+          cmd: |
+            ${llamaCppCuda}/bin/llama-server -m "${modelDir}/Qwen3.5-4B-Q4_K_M.gguf" --jinja -ngl 99 -fa on -c 65536 -ctk q8_0 -ctv q8_0 -np 1 --reasoning on --reasoning-budget 4096 --port ''${PORT}
+          ttl: 300
+
+        "qwen2b":
+          cmd: |
+            ${llamaCppCuda}/bin/llama-server -m "${modelDir}/Qwen3.5-2B-Q4_K_M.gguf" --mmproj "${modelDir}/Qwen3.5-2B-mmproj-F16.gguf" --jinja -ngl 99 -fa on -c 16384 -ctk q8_0 -ctv q8_0 -np 1 --reasoning off --port ''${PORT}
+          ttl: 300
+
+        "qwen08b":
+          cmd: |
+            ${llamaCppCuda}/bin/llama-server -m "${modelDir}/Qwen3.5-0.8B-Q4_K_M.gguf" --jinja -ngl 99 -fa on -c 8192 -ctk q8_0 -ctv q8_0 -np 1 --reasoning off --port ''${PORT}
           ttl: 300
     '';
 
