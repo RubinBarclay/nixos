@@ -34,9 +34,12 @@ hostname. Breaking that equality breaks those aliases on that host.
 - `hosts/thinkToasterT430/` and `hosts/wslToasterRTX/` (NixOS-WSL on
   Windows, RTX 3080 passed through) are real, running machines.
   `wslToasterRTX` also runs `llama-swap` + CUDA `llama-cpp` for local
-  inference (see its `default.nix`) — CUDA GPU access there comes through
-  `/usr/lib/wsl/lib` (Windows' own driver stub), not `hardware.nvidia`,
-  which doesn't apply under WSL2.
+  inference (see `services/llama-swap.nix`, imported by its `default.nix`)
+  — CUDA GPU access there comes through `/usr/lib/wsl/lib` (Windows' own
+  driver stub), not `hardware.nvidia`, which doesn't apply under WSL2. That
+  env var line is WSL-specific and will need swapping for real driver
+  support when a native-Linux host (e.g. a dedicated AI box) imports the
+  same service file.
 - `hosts/wsl-template/` and `hosts/server-template/` are **intentionally
   untested scaffolds** — written from documentation/inference, never built
   (no `nix` binary is available in a Claude Code web/cloud session; see

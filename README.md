@@ -30,7 +30,7 @@ secrets/                agenix-encrypted secrets — see secrets/README.md
 | Host | Status | Profile mix |
 |---|---|---|
 | `thinkToasterT430` | real, running | desktop + systemd-boot-efi + syncthing |
-| `wslToasterRTX` | real, running | common only (CLI, no GUI) + host-specific llama-swap/CUDA (RTX 3080 passthrough) |
+| `wslToasterRTX` | real, running | common only (CLI, no GUI) + `services/llama-swap.nix` (CUDA, RTX 3080 passthrough) |
 | `wsl-template` | **scaffold, untested** | common only (CLI, no GUI) |
 | `server-template` | **scaffold, untested** | common + server |
 
